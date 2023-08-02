@@ -12,7 +12,7 @@ public class NewsService implements INewsService{
     private NewsRepository newsRepository;
     @Override
     public List<News> findAllNews() {
-        return newsRepository.findAll();
+        return newsRepository.findAllByOrderByDateDesc();
     }
 
     @Override

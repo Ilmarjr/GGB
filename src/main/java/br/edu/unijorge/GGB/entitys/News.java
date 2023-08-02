@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,17 +24,21 @@ public class News {
 
     @Column(name = "DATE", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate dataCadastro;
+    private LocalDate date;
 
-    @Column(name = "IMAGE")
-    private String image;
+
+    @OneToMany(mappedBy = "news",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Tags> tags;
+    @Lob
+    @Column(name = "MAINPICTURE")
+    private byte[] mainPicture;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
     @PrePersist
     public void prePersist(){
-        setDataCadastro(LocalDate.now());
+        setDate(LocalDate.now());
     }
 
 
