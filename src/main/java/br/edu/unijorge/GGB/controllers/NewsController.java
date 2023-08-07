@@ -4,13 +4,13 @@ import br.edu.unijorge.GGB.entitys.News;
 import br.edu.unijorge.GGB.services.INewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,22 +34,33 @@ public class NewsController {
         return ResponseEntity.ok(news);
 
     }
-    @PostMapping
-    public ResponseEntity<News> createNews(@RequestBody News news, @RequestParam Optional<MultipartFile> file) throws IOException {
+    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<News> createNews(@RequestPart News news, @RequestPart Optional<MultipartFile> file) throws IOException {
+        News createdNews;
         if(file.isPresent()){
             MultipartFile image = file.get();
             if (image.isEmpty() || image.getOriginalFilename() == null || image.getOriginalFilename().isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"the File must contain a valid file name");
             }
-            
+            createdNews = newsService.createNews(news, image);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdNews);
         }
-        var newsEntity = newsService.createNews(news);
-        return ResponseEntity.ok(newsEntity);
+          createdNews = newsService.createNews(news);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdNews);
     }
     @PutMapping
-    public ResponseEntity<News> updateNews(@RequestBody News news, Optional<MultipartFile> image){
-        var newsEntity = newsService.updateNews(news);
-        return ResponseEntity.ok(newsEntity);
+    public ResponseEntity<News> updateNews(@RequestBody News news, Optional<MultipartFile> file) throws IOException {
+        News updatedNews;
+        if(file.isPresent()){
+            MultipartFile image = file.get();
+            if (image.isEmpty() || image.getOriginalFilename() == null || image.getOriginalFilename().isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"The File must contain a valid file name");
+            }
+            updatedNews = newsService.updateNews(news, image);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedNews);
+        }
+        updatedNews = newsService.updateNews(news);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedNews);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<News> deleteNews(@PathVariable Long id){
