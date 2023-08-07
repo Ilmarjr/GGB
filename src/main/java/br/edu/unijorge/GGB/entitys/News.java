@@ -29,9 +29,9 @@ public class News {
 
     @OneToMany(mappedBy = "news",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Tags> tags;
-    @Lob
+
     @Column(name = "MAINPICTURE")
-    private byte[] mainPicture;
+    private String mainPicture;
 
     @Column(name = "DESCRIPTION")
     private String description;
