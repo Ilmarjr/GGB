@@ -22,21 +22,34 @@ public class AuthenticationService {
     private UserRepository userRepository;
 
     @SuppressWarnings("rawtypes")
-    public ResponseEntity signIn(AccountCredentialsDTO data){
+    public ResponseEntity signIn(AccountCredentialsDTO data) {
         try {
             var username = data.getUsername();
             var password = data.getPassword();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             var user = userRepository.findByUsername(username);
             var tokenResponse = new TokenDTO();
-            if(user != null){
-                tokenResponse =  tokenProvider.createAccessToken(username, user.getRoles());
-            }else{
+            if (user != null) {
+                tokenResponse = tokenProvider.createAccessToken(username, user.getRoles());
+            } else {
                 throw new UsernameNotFoundException("username " + username + " not found!");
             }
             return ResponseEntity.ok(tokenResponse);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new BadCredentialsException("Invalid username/password supplied");
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity refreshToken(String username, String refreshToken) {
+        var user = userRepository.findByUsername(username);
+
+        var tokenResponse = new TokenDTO();
+        if (user != null) {
+            tokenResponse = tokenProvider.refreshToken(refreshToken);
+        } else {
+            throw new UsernameNotFoundException("username " + username + " not found!");
+        }
+        return ResponseEntity.ok(tokenResponse);
     }
 }
