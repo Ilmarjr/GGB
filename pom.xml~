@@ -58,7 +58,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>${java-jwt.version}</version>
+            <version>${}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
