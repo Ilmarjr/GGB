@@ -19,6 +19,7 @@ Requisições para a API devem seguir os padrões:
 | `200` | Requisição executada com sucesso (success).|
 | `400` | Erros de validação ou os campos informados não existem no sistema.|
 | `401` | Dados de acesso inválidos.|
+| `403` | Falta de validação|
 | `404` | Registro pesquisado não encontrado (Not found).|
 | `405` | Método não implementado.|
 | `410` | Registro pesquisado foi apagado do sistema e não esta mais disponível.|
