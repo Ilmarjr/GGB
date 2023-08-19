@@ -33,3 +33,7 @@ Nossa API utiliza [OAuth0](https://auth0.com/pt) como forma de autenticação/au
 ## Solicitando tokens de acesso [/auth/signin]
 username:  `ggbAdmin`  
 password:  `ggbadmin` 
+
+## Notícias [/api/v1/news]
+### Listar todos [GET {?id,title,date,tags,mainPicture,description}]
+### Buscar pelo ID [GET/{id} {?id,title,date,tags,mainPicture,description}]
