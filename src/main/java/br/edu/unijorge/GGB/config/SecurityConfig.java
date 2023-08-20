@@ -21,6 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256;
 
 @EnableWebSecurity
@@ -30,8 +31,8 @@ public class SecurityConfig {
     private JwtTokenProvider tokenProvider;
 
     @Bean
-    PasswordEncoder passwordEncoder(){
-        Map<String,PasswordEncoder> encoders = new HashMap<>();
+    PasswordEncoder passwordEncoder() {
+        Map<String, PasswordEncoder> encoders = new HashMap<>();
 
         Pbkdf2PasswordEncoder pbkdf2Encoder = new Pbkdf2PasswordEncoder("", 8, 185000, PBKDF2WithHmacSHA256);
         encoders.put("pbkdf2", pbkdf2Encoder);
@@ -47,34 +48,20 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic().disable()
+        http.httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        authorizeHttpRequests -> authorizeHttpRequests
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(
-                                        "/auth/signin")).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(
-                                        "/auth/refresh/**")).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,
-                                        "/api/**")).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,
-                                        "/api/**")).authenticated()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT,
-                                        "/api/**")).authenticated()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.DELETE,
-                                        "/api/**")).authenticated()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(
-                                        "/users")).denyAll()
-                )
-                .cors()
-                .and()
-                .apply(new JwtConfigurer(tokenProvider))
-                .and()
-                .build();
-
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorizeHttpRequests ->
+                        authorizeHttpRequests.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/signin")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/auth/refresh/**")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/**")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/**")).authenticated()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT, "/api/**")).authenticated()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/**")).authenticated()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/users")).denyAll()
+                );
+        http.cors(withDefaults());
+        http.apply(new JwtConfigurer(tokenProvider));
+        return http.build();
     }
-
 }
