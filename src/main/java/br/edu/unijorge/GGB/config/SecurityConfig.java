@@ -5,6 +5,7 @@ import br.edu.unijorge.GGB.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,8 +25,7 @@ import static org.springframework.security.crypto.password.Pbkdf2PasswordEncoder
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig{
-
+public class SecurityConfig {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
@@ -58,7 +58,13 @@ public class SecurityConfig{
                                         "/auth/signin")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(
                                         "/auth/refresh/**")).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher(
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,
+                                        "/api/**")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,
+                                        "/api/**")).authenticated()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT,
+                                        "/api/**")).authenticated()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.DELETE,
                                         "/api/**")).authenticated()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(
                                         "/users")).denyAll()
