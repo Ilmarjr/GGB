@@ -13,6 +13,9 @@ public class ContactService {
   private ContactRepository contactRepository;
 
     public Contact createContact(Contact contact) {
+        var contactEntity = contactRepository.findByEmailIgnoreCase(contact.getEmail());
+        if(contactEntity.isPresent())
+            return contact;
         return contactRepository.saveAndFlush(contact);
     }
 }

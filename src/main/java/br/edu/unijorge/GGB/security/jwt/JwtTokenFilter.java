@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class JwtTokenFilter extends GenericFilterBean {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private JwtTokenProvider tokenProvider;
 
