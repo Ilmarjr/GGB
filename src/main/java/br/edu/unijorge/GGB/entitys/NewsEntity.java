@@ -14,7 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class News implements Serializable {
+@Table(name = "NEWS")
+public class NewsEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
@@ -29,9 +30,9 @@ public class News implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
 
-
-    @OneToMany(mappedBy = "news",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Tags> tags;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "NEWS_TAGS", joinColumns = {@JoinColumn(name="ID_NEWS")},inverseJoinColumns = {@JoinColumn(name = "ID_TAGS")})
+    private List<Tag> tags;
 
     @Column(name = "MAINPICTURE")
     private String mainPicture;

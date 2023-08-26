@@ -11,20 +11,21 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class Tags implements Serializable {
+@Table(name = "TAGS")
+public class Tag implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public Tag(String tag) {
+        this.tag = tag;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(name = "TAG")
     private String tag;
-    @ManyToOne
-    @JoinColumn(name = "NEWS_ID")
-    @JsonIgnore
-    private News news;
 
 }

@@ -1,9 +1,9 @@
 package br.edu.unijorge.GGB.DTOs;
 
-import br.edu.unijorge.GGB.entitys.Tags;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class NewsDTO implements Serializable {
     private String title;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
-    private List<Tags> tags;
+    private List<String> tags;
     private String mainPicture;
     private String description;
 

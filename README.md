@@ -36,6 +36,6 @@ password:  `ggbadmin`
 
 ## Refresh Token [/refresh/{username}]
 
-## Notícias [/api/v1/news]
+## Notícias [/api/v1/newsEntity]
 ### Listar todos [GET {?id,title,date,tags,mainPicture,description}]
 ### Buscar pelo ID [GET/{id} {?id,title,date,tags,mainPicture,description}]

@@ -1,8 +1,10 @@
 package br.edu.unijorge.GGB.services;
 
-import br.edu.unijorge.GGB.entitys.News;
+import br.edu.unijorge.GGB.entitys.NewsEntity;
+import br.edu.unijorge.GGB.entitys.Tag;
 import br.edu.unijorge.GGB.exceptions.StorageException;
 import br.edu.unijorge.GGB.repositories.NewsRepository;
+import br.edu.unijorge.GGB.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,39 +23,49 @@ import java.util.Objects;
 public class NewsService implements INewsService {
     @Autowired
     private NewsRepository newsRepository;
+    @Autowired
+    private TagRepository tagRepository;
     @Value("${image.baseDir}")
     private String imageDirectory;
 
     @Override
-    public List<News> findAllNews() {
+    public List<NewsEntity> findAllNews() {
         return newsRepository.findAllByOrderByDateDesc();
     }
 
     @Override
-    public News findById(Long id) {
+    public NewsEntity findById(Long id) {
         return newsRepository.findById(id).orElse(null);
     }
 
     @Override
-    public News createNews(News news) {
-        return newsRepository.saveAndFlush(news);
+    public NewsEntity createNews(NewsEntity newsEntity) {
+        var tags = createOrUpdateTags(newsEntity.getTags());
+        newsEntity.setTags(tags);
+        return newsRepository.saveAndFlush(newsEntity);
     }
 
     @Override
-    public News createNews(News news, MultipartFile file) throws IOException {
-        news.setMainPicture(storeFileIntoImagesDirectory(file));
-        return newsRepository.saveAndFlush(news);
+    public NewsEntity createNews(NewsEntity newsEntity, MultipartFile file) throws IOException {
+        newsEntity.setMainPicture(storeFileIntoImagesDirectory(file));
+        var tags = createOrUpdateTags(newsEntity.getTags());
+        newsEntity.setTags(tags);
+        return newsRepository.saveAndFlush(newsEntity);
     }
 
     @Override
-    public News updateNews(News news) {
-        return newsRepository.saveAndFlush(news);
+    public NewsEntity updateNews(NewsEntity newsEntity) {
+        var tags = createOrUpdateTags(newsEntity.getTags());
+        newsEntity.setTags(tags);
+        return newsRepository.saveAndFlush(newsEntity);
     }
 
     @Override
-    public News updateNews(News news, MultipartFile file) throws IOException {
-         news.setMainPicture(storeFileIntoImagesDirectory(file));
-         return newsRepository.saveAndFlush(news);
+    public NewsEntity updateNews(NewsEntity newsEntity, MultipartFile file) throws IOException {
+         newsEntity.setMainPicture(storeFileIntoImagesDirectory(file));
+        var tags = createOrUpdateTags(newsEntity.getTags());
+        newsEntity.setTags(tags);
+         return newsRepository.saveAndFlush(newsEntity);
     }
 
     @Override
@@ -64,6 +76,16 @@ public class NewsService implements INewsService {
             return true;
         }
         return false;
+    }
+    private List<Tag> createOrUpdateTags(List<Tag> tags){
+        for (Tag tag: tags) {
+            var optTag = tagRepository.findByTagIgnoreCase(tag.getTag());
+            if(optTag.isPresent())
+                //tags.add(tags.indexOf(tag),optTag.get());
+                tag = optTag.get();
+            else tag = tagRepository.saveAndFlush(tag);
+        }
+        return tags;
     }
     private String storeFileIntoImagesDirectory(MultipartFile file) throws IOException {
         try {
