@@ -1,0 +1,2 @@
+INSERT INTO users (`user_name`, `password`, `account_non_expired`, `account_non_locked`, `credentials_non_expired`, `enabled`) VALUES
+('ggbAdmin', '247ec302f9ea40e4922329cd86e6547de10be9411794448a528f4961c58f694a98a308a8a211b22d', true, true, true, true);
