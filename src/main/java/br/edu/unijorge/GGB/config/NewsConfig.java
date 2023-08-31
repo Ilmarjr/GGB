@@ -24,6 +24,8 @@ public class NewsConfig {
         Converter<NewsDTO, List<Tag>> tagFieldConverter = context -> {
             var src = context.getSource();
             List<Tag> tags = new ArrayList<>();
+            if (src.getTags() == null)
+                return tags;
             for (String description : src.getTags()) {
                 Tag tag = new Tag(description);
                 tags.add(tag);
@@ -39,6 +41,8 @@ public class NewsConfig {
         Converter<NewsEntity, List<String>> tagFieldConverter = context -> {
             var src = context.getSource();
             List<String> tags = new ArrayList<>();
+            if (src.getTags() == null)
+                return tags;
             for (Tag tag : src.getTags()) {
                 tags.add(tag.getTag());
             }
