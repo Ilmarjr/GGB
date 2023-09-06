@@ -104,6 +104,6 @@ public class NewsService implements INewsService {
     public void setup() throws IOException {
         Path dir = Paths.get(imageDirectory);
         if(Files.notExists(dir))
-            Files.createDirectories(dir);
+            Files.createDirectories(dir); 
     }
 }
