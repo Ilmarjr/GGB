@@ -62,7 +62,7 @@ Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/au
 | `api_key`      | `string` | Chave da API |
 
 **Json deve informar:**
-| Key | Value |
+| Chave | Valor |
 | :-- | :---- |
 | `username` | `String` |
 | `password` | `String` |
@@ -77,3 +77,33 @@ Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/au
 
 **Json deve informar:**
 #### em desenvolvimento
+
+## Enviando uma notícia
+
+```http
+  POST /api/v1/news
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `api_key`      | `string` | Chave da API |
+
+**Json deve informar:**
+| Chave | Valor |
+| :-- | :---- |
+| `title*` | `String` |
+| `description*` | `String` |
+| `tag` | `[String]` |
+| `mainPicture` | `MULTI_PART_FORM_DATA` |
+
+## Deletando uma noticia
+
+```http
+  DELETE /api/v1/news/{id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `string` | Id da noticia a ser deletada |
+
+
