@@ -34,7 +34,7 @@ Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/au
 #### Retorna todas as noticias
 
 ```http
-  GET /api/v1/newsEntity
+ GET /api/v1/newsEntity
 ```
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -107,3 +107,9 @@ Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/au
 | `id`      | `string` | Id da noticia a ser deletada |
 
 
+
+## Autores
+
+- [@ShinyRonald](https://github.com/ShinyRonald)
+- [@Ilmarjr ](https://github.com/Ilmarjr)
+- [@09Uno](https://github.com/09Uno)
