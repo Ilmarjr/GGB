@@ -73,7 +73,7 @@ Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/au
 
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
-| `String`      | `string` | Username para refresh do token |
+| `username`      | `string` | Username para refresh do token |
 
 **Json deve informar:**
 #### em desenvolvimento
