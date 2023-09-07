@@ -28,14 +28,31 @@ Requisições para a API devem seguir os padrões:
 
 # Group Autenticação - OAuth
 
-Nossa API utiliza [OAuth0](https://auth0.com/pt) como forma de autenticação/autorização.
+Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/autorização.
 
 ## Solicitando tokens de acesso [/auth/signin]
 username:  `ggbAdmin`  
 password:  `ggbadmin` 
 
 ## Refresh Token [/refresh/{username}]
+## Documentação da API
 
-## Notícias [/api/v1/newsEntity]
-### Listar todos [GET {?id,title,date,tags,mainPicture,description}]
-### Buscar pelo ID [GET/{id} {?id,title,date,tags,mainPicture,description}]
+#### Retorna todos os itens
+
+```http
+  GET /api/v1/newsEntity
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `api_key` | `string` | **Obrigatório**. A chave da API |
+
+#### Retorna um item
+
+```http
+  GET /api/v1/newsEntity/${id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `string` | **Obrigatório**. O ID do item que você quer |
