@@ -26,7 +26,8 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
     @Value("${security.jwt.token.expire-length:36000000}")
-    private long validityInMilliseconds = 36000000; // 1H
+    private int validityInHours;
+    private long validityInMilliseconds; // 1H
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -40,7 +41,8 @@ public class JwtTokenProvider {
     }
     public TokenDTO createAccessToken(String username, List<String> roles){
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        setValidityInMilliseconds();
+        Date validity = new Date(now.getTime() + (validityInMilliseconds));
         var accessToken = getAccessToken(username, roles, now, validity);
         var refreshToken = getRefreshToken(username, roles, now);
         return new TokenDTO(username, true, now,validity, accessToken,refreshToken);
@@ -67,6 +69,7 @@ public class JwtTokenProvider {
                 .strip();
     }
     private String getRefreshToken(String username, List<String> roles, Date now) {
+        setValidityInMilliseconds();
         Date validityRefreshToken = new Date(now.getTime() + (validityInMilliseconds * 3));
         return JWT.create()
                 .withClaim("roles", roles)
@@ -102,5 +105,8 @@ public class JwtTokenProvider {
         }catch (Exception ex){
             throw new InvalidJwtAuthenticationException("Expired or invalid JWT token!");
         }
+    }
+    public void setValidityInMilliseconds(){
+        validityInMilliseconds = 36000000L * validityInHours;
     }
 }
