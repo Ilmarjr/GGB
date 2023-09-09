@@ -3,6 +3,7 @@ package br.edu.unijorge.GGB.entitys;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -37,7 +38,7 @@ public class NewsEntity implements Serializable {
     @Column(name = "MAINPICTURE")
     private String mainPicture;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
     private String description;
 
     @PrePersist

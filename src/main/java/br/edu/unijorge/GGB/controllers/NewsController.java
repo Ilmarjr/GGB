@@ -58,8 +58,8 @@ public class NewsController {
         var mappedNews = modelMapper.map(createdNewsEntity,NewsDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(mappedNews);
     }
-    @PutMapping
-    public ResponseEntity<NewsDTO> updateNews(@RequestBody NewsDTO news, Optional<MultipartFile> file) throws IOException {
+    @PutMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<NewsDTO> updateNews(@RequestPart NewsDTO news,@RequestPart Optional<MultipartFile> file) throws IOException {
         NewsEntity newsEntity = modelMapper.map(news,NewsEntity.class);
         NewsEntity updatedNewsEntity;
         if(file.isPresent()){

@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/signin")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/auth/refresh/**")).permitAll()
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/contact")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/**")).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/**")).authenticated()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT, "/api/**")).authenticated()
