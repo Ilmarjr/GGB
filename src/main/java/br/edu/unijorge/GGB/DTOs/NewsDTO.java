@@ -18,7 +18,8 @@ public class NewsDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private String title;
+    private String title;    
+    private String subTitle;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
     private List<String> tags;

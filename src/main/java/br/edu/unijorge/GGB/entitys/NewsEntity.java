@@ -27,6 +27,9 @@ public class NewsEntity implements Serializable {
     @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "SUBTITLE")
+    private String subTitle;
+
     @Column(name = "DATE", updatable = false)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
