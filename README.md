@@ -106,6 +106,42 @@ Nossa API utiliza [OAuth2](https://auth0.com/pt) como forma de autenticação/au
 | :---------- | :--------- | :------------------------------------------ |
 | `id`      | `string` | Id da noticia a ser deletada |
 
+# Rota de Contatos
+## Retorna todos os contatos
+
+```http
+  GET /api/v1/contact
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `api_key`      | `string` | Chave da API |
+
+## Retorna o contato do id
+
+```http
+  GET /api/v1/contact/{id}
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `id`      | `string` | ID do contato que você quer|
+
+## Post do contato
+
+```http
+  POST /api/v1/contact
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `api_key`      | `string` | Chave da API|
+
+**Json deve informar:**
+| Chave | Valor |
+| :-- | :---- |
+| `email` | `String` |
+| `valid` | `bit` |
 
 
 ## Autores
