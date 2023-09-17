@@ -24,6 +24,9 @@ public class Contact implements Serializable {
     @Column(name = "EMAIL", updatable = false)
     private String email;
 
+    @Column(name = "VALID")
+    private boolean valid;
+
     @PrePersist
     public void prePersist(){
         setEmail(getEmail().toLowerCase());

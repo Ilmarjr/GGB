@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import br.edu.unijorge.GGB.entitys.Contact;
 import br.edu.unijorge.GGB.repositories.ContactRepository;
 
+import java.util.List;
+
 @Service
 public class ContactService {
 
@@ -17,5 +19,13 @@ public class ContactService {
         if(contactEntity.isPresent())
             return contact;
         return contactRepository.saveAndFlush(contact);
+    }
+
+    public List<Contact> findAll(){
+       return contactRepository.findAll();
+    }
+
+    public Contact findById(Long id) {
+        return contactRepository.findById(id).orElse(null);
     }
 }
