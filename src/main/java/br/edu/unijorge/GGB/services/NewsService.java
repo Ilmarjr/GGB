@@ -29,6 +29,8 @@ public class NewsService implements INewsService {
     private TagRepository tagRepository;
     @Value("${image.baseDir}")
     private String imageDirectory;
+    @Value("${image.url}")
+    private String imageURl;
 
     @Override
     public List<NewsEntity> findAllNews() {
@@ -49,7 +51,8 @@ public class NewsService implements INewsService {
 
     @Override
     public NewsEntity createNews(NewsEntity newsEntity, MultipartFile file) throws IOException {
-        newsEntity.setMainPicture(storeFileIntoImagesDirectory(file));
+        storeFileIntoImagesDirectory(file);
+        newsEntity.setMainPicture(imageURl + "/" + file.getOriginalFilename());
         var tags = createOrUpdateTags(newsEntity.getTags());
         newsEntity.setTags(tags);
         return newsRepository.saveAndFlush(newsEntity);
@@ -64,7 +67,8 @@ public class NewsService implements INewsService {
 
     @Override
     public NewsEntity updateNews(NewsEntity newsEntity, MultipartFile file) throws IOException {
-         newsEntity.setMainPicture(storeFileIntoImagesDirectory(file));
+        storeFileIntoImagesDirectory(file);
+        newsEntity.setMainPicture(imageURl + "/" + file.getOriginalFilename());
         var tags = createOrUpdateTags(newsEntity.getTags());
         newsEntity.setTags(tags);
          return newsRepository.saveAndFlush(newsEntity);
